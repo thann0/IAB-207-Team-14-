@@ -1,75 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Event Details - SEA Food Festivals</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="static/style/main.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-primary text-white">
+
   <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.html">SEA Food Festivals</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="create.html">Create Event</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="booking-history.html">My Bookings</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-
-  <!-- Event Info -->
-  <div class="container my-5">
-    <h2>Thai Street Food Carnival</h2>
-    <img src="static/img/Thfoodfestiv.png" class="img-fluid mb-3" alt="Thai Festival">
-    <p><strong>Venue:</strong> Roma street parkland, Brisbane</p>
-    <p><strong>Date:</strong> 12 Dec 2025</p>
-    <p>Experience authentic Thai street food, live cooking shows, and cultural performances.</p>
-    <span class="badge bg-success">Open</span>
-    
-    <!-- Ticket Booking -->
-    <h4 class="mt-4">Book Tickets</h4>
-    <form class="row g-3">
-      <div class="col-md-4">
-        <label for="tickets" class="form-label">Number of Tickets</label>
-        <input type="number" id="tickets" class="form-control" min="1" max="10">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">SEA Food Festivals</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="create.html">Create Event</a></li>
+          <li class="nav-item"><a class="nav-link" href="booking-history.html">My Bookings</a></li>
+        </ul>
       </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Book Now</button>
-      </div>
-    </form>
-
-    <!-- Comments -->
-    <h4 class="mt-5">Comments</h4>
-    <div class="mb-3">
-      <label for="comment" class="form-label">Leave a Comment</label>
-      <textarea id="comment" class="form-control" rows="3"></textarea>
-      <button class="btn btn-secondary mt-2">Post Comment</button>
     </div>
-    <ul class="list-group">
-      <li class="list-group-item"><strong>Candice:</strong> Can’t wait for this festival!</li>
-      <li class="list-group-item"><strong>Andrew:</strong> It was a very fun and exciting experience for me .</li>
-      <li class="list-group-item"><strong>Nathan:</strong> I would love to go here again next year.</li>
-      <li class="list-group-item"><strong>Natalie:</strong> Best food event ever.</li>
-      <li class="list-group-item"><strong>Huang:</strong> I went last year, it was amazing.</li>
-    </ul>
-  </div>
+  </nav>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
-    © 2025 SEA Food Festivals
+  <main class="container my-5">
+
+    <!-- Alert -->
+    <div id="alertBox" class="alert d-none" role="alert"></div>
+
+    <!-- Event Card -->
+    <div class="card bg-dark border-0">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <h2 id="evTitle" class="card-title mb-1">Event</h2>
+          <span id="statusBadge" class="badge bg-secondary">Status</span>
+        </div>
+        <p id="evMeta" class="text-white-50 mb-3">—</p>
+        <img id="evImg" src="" class="img-fluid rounded mb-3" alt="Event image" />
+        <p id="evDesc" class="mb-3">—</p>
+        <div class="d-flex gap-2">
+          <a href="index.html" class="btn btn-outline-light btn-sm">← Back</a>
+          <a id="creatorLink" href="#" class="btn btn-outline-info btn-sm d-none">Creator Mode</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Creator-only Edit Block -->
+    <div id="editBlock" class="card bg-dark border mt-4 d-none">
+      <div class="card-body">
+        <h5 class="card-title">Update Event (Creator)</h5>
+        <form id="editForm" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Title</label>
+            <input id="fTitle" class="form-control">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea id="fDesc" class="form-control" rows="3" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Venue</label>
+            <input id="fVenue" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Date &amp; Time</label>
+            <input id="fDate" type="datetime-local" class="form-control" required>
+          </div>
+          <div class="col-12 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+            <button id="cancelBtn" class="btn btn-outline-danger" type="button">Cancel Event</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-primary text-center text-white py-5 mt-auto">
+    <p class="mb-0">© 2025 SEA Food Festivals</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ---- Seed dataset (IDs & images must match index.html) ----
+    const DATA = {
+      e1: { id:'e1', title:'Thai Street Food Carnival', country:'Thailand', venue:'Roma Street Parkland, Brisbane', date:'2025-12-12T18:00', description:'Street food, dance, and live music.', status:'Open',     img:'static/img/Thfoodfestiv.png' },
+      e2: { id:'e2', title:'Vietnam Food Fair',          country:'Vietnam',  venue:'Southbank Parklands, Brisbane', date:'2025-12-20T17:00', description:'Pho, banh mi, and cultural shows.', status:'Limited',  img:'static/img/viet food fest.jpg' },
+      e3: { id:'e3', title:'Singapore Hawker Nights',     country:'Singapore',venue:'Queen Street Park, Brisbane',  date:'2026-01-05T19:00', description:'Hawker classics & night market vibe.', status:'Sold Out',img:'static/img/sg hawker.jpg' },
+      e4: { id:'e4', title:'Malaysia Food Street',        country:'Malaysia', venue:'Indooroopilly Shopping Centre, Brisbane', date:'2026-01-15T18:00', description:'Satay, laksa, and live performances.', status:'Open', img:'static/img/Malay food fest.jpg' },
+      e5: { id:'e5', title:'Indonesian Food Bazaar',      country:'Indonesia',venue:'Westfield Mt Gravatt, Brisbane', date:'2026-01-22T18:00', description:'Jimbaran BBQ, rendang, and gamelan.', status:'Limited',img:'static/img/Indo food fest.jpeg' },
+      e6: { id:'e6', title:'Philippines Fiesta',          country:'Philippines', venue:'Captain Burke Park, Brisbane', date:'2026-01-30T18:00', description:'Lechon, halo-halo & cultural dances.', status:'Sold Out',img:'static/img/phili food festival.jpg' },
+    };
+
+    const STORE_KEY = 'iab207.events.v1';
+
+    // Helpers
+    const qs = new URLSearchParams(location.search);
+    const id = qs.get('id');            // e.g., e2
+    const isCreator = qs.has('creator'); // show edit UI if ?creator=1
+    const $ = (s)=>document.querySelector(s);
+
+    const evTitle=$('#evTitle'), evMeta=$('#evMeta'), evDesc=$('#evDesc'), evImg=$('#evImg'), badge=$('#statusBadge');
+    const alertBox=$('#alertBox'), editBlock=$('#editBlock'), creatorLink=$('#creatorLink');
+    const fTitle=$('#fTitle'), fDesc=$('#fDesc'), fVenue=$('#fVenue'), fDate=$('#fDate'), cancelBtn=$('#cancelBtn');
+
+    const fmt = (iso)=> new Date(iso).toLocaleString('en-AU',{hour12:false});
+    const toLocalDT = (iso)=> {
+      const d=new Date(iso), pad=n=>String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    };
+    function toast(msg, ok=true){
+      alertBox.textContent = msg;
+      alertBox.className = 'alert ' + (ok?'alert-success':'alert-danger');
+      alertBox.classList.remove('d-none');
+      setTimeout(()=>alertBox.classList.add('d-none'), 2000);
+    }
+    function setStatus(s){
+      badge.className = 'badge ' + (s==='Cancelled' ? 'bg-danger' :
+                                    s==='Open' ? 'bg-success' :
+                                    s==='Limited' ? 'bg-warning text-dark' : 'bg-secondary');
+      badge.textContent = s;
+    }
+
+    if (!id || !DATA[id]) {
+      document.body.innerHTML = '<div class="container my-5"><div class="alert alert-danger">Invalid or missing event ID.</div><a class="btn btn-outline-dark" href="index.html">Back</a></div>';
+    } else {
+      // Load overrides
+      let overrides = {};
+      try { overrides = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch {}
+
+      const base = {...DATA[id]};
+      const o = overrides[id] || {};
+      const ev = {...base, ...o};
+
+      // Render event
+      evTitle.textContent = ev.title;
+      evDesc.textContent  = ev.description;
+      evMeta.textContent  = `${ev.country} • ${ev.venue} • ${fmt(ev.date)}`;
+      setStatus(ev.status);
+      evImg.src = ev.img; evImg.alt = ev.title;
+
+      // Shortcut to enter creator mode
+      if (!isCreator) {
+        creatorLink.classList.remove('d-none');
+        creatorLink.href = `details.html?id=${encodeURIComponent(id)}&creator=1`;
+      }
+
+      // Creator controls
+      if (isCreator) {
+        editBlock.classList.remove('d-none');
+        fTitle.value = ev.title;
+        fDesc.value  = ev.description;
+        fVenue.value = ev.venue;
+        fDate.value  = toLocalDT(ev.date);
+
+        document.getElementById('editForm').addEventListener('submit', (e)=>{
+          e.preventDefault();
+
+          const newTitle = fTitle.value.trim();
+          const newDesc  = fDesc.value.trim();
+          const newVenue = fVenue.value.trim();
+          const newDate  = fDate.value;
+
+          if (!newTitle || !newDesc || !newVenue || !newDate) {
+            toast('Please fill all fields (title, description, venue, date).', false);
+            return;
+          }
+
+          overrides[id] = { ...(overrides[id]||{}), title:newTitle, description:newDesc, venue:newVenue, date:newDate, status: ev.status };
+          localStorage.setItem(STORE_KEY, JSON.stringify(overrides));
+
+          // Re-render
+          ev.title = newTitle; ev.description = newDesc; ev.venue = newVenue; ev.date = newDate;
+          evTitle.textContent = ev.title;
+          evDesc.textContent  = ev.description;
+          evMeta.textContent  = `${ev.country} • ${ev.venue} • ${fmt(ev.date)}`;
+          toast('Saved changes ✅');
+        });
+
+        cancelBtn.addEventListener('click', ()=>{
+          if (!confirm('Are you sure you want to cancel this event?')) return;
+          overrides[id] = { ...(overrides[id]||{}), status:'Cancelled' };
+          localStorage.setItem(STORE_KEY, JSON.stringify(overrides));
+          ev.status = 'Cancelled';
+          setStatus(ev.status);
+          toast('Event has been set to Cancelled ❌');
+        });
+      }
+    }
+  </script>
 </body>
 </html>

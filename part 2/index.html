@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SEA Food Festivals</title>
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body class="d-flex flex-column min-vh-100 bg-primary text-white">
-
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -20,118 +19,230 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="create.html">Create Event</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="booking-history.html">My Bookings</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="create.html">Create Event</a></li>
+          <li class="nav-item"><a class="nav-link" href="booking-history.html">My Bookings</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-<header class="bg-primary text-center text-white py-5">
-  <div class="container">
-    <h1 class="display-5 fw-bold">Discover Southeast Asian Food & Drink Festivals</h1>
-    <p class="lead">Browse events, book tickets, and celebrate culture across the region.</p>
-  </div>
-</header>
-
+  <!-- Hero -->
+  <header class="bg-primary text-center text-white py-5">
+    <div class="container">
+      <h1 class="display-5 fw-bold">Discover Southeast Asian Food & Drink Festivals</h1>
+      <p class="lead">Browse events, book tickets, and celebrate culture across the region.</p>
+    </div>
+  </header>
 
   <!-- Event Cards -->
-<div class="container my-5">
-  <div class="row">
+  <div class="container my-5">
 
-    <!-- Event 1 -->
-    <div class="col-md-4">
-      <div class="card h-100">
-        <img src="static/img/Thfoodfestiv.png" class="card-img-top" alt="Thai Festival">
-        <div class="card-body">
-          <h5 class="card-title">Thai Street Food Carnival</h5>
-          <p class="card-text">Roma Street Parkland, Brisbane – 12 Dec 2025</p>
-          <span class="badge bg-success">Open</span>
-          <a href="details.html" class="btn btn-primary mt-3">View Details</a>
-        </div>
+    <!-- Country Filter (US#2) -->
+    <div class="row g-3 align-items-end my-3">
+      <div class="col-md-6">
+        <label for="countryFilter" class="form-label mb-1">Filter by Country</label>
+        <select id="countryFilter" class="form-select">
+          <option value="__ALL__">All Countries</option>
+        </select>
+      </div>
+      <div class="col-md-6 text-md-end small text-white-50">
+        Showing <span id="countShown">0</span> of <span id="countTotal">0</span> events
       </div>
     </div>
-
-    <!-- Event 2 -->
-    <div class="col-md-4">
-      <div class="card h-100">
-        <img src="static/img/viet food fest.jpg" class="card-img-top" alt="Vietnam Festival">
-        <div class="card-body">
-          <h5 class="card-title">Vietnam Food Fair</h5>
-          <p class="card-text">Southbank Parklands, Brisbane – 20 Dec 2025</p>
-          <span class="badge bg-warning text-dark">Limited</span>
-          <a href="details.html" class="btn btn-primary mt-3">View Details</a>
-        </div>
-      </div>
+    <div id="emptyState" class="text-center text-white-50 d-none mt-2">
+      No events match this filter.
     </div>
 
-    <!-- Event 3 -->
-    <div class="col-md-4">
-      <div class="card h-100">
-        <img src="static/img/sg hawker.jpg" class="card-img-top" alt="Singapore Hawker Festival">
-        <div class="card-body">
-          <h5 class="card-title">Singapore Hawker Nights</h5>
-          <p class="card-text">Queen Street Park, Brisbane – 05 Jan 2026</p>
-          <span class="badge bg-danger">Sold Out</span>
-          <a href="details.html" class="btn btn-primary mt-3">View Details</a>
+    <div id="eventsGrid" class="row">
+
+      <!-- Event 1 -->
+      <div class="col-md-4" data-country="Thailand">
+        <div class="card h-100">
+          <img src="static/img/Thfoodfestiv.png" class="card-img-top" alt="Thai Festival">
+          <div class="card-body">
+            <h5 class="card-title">Thai Street Food Carnival</h5>
+            <!-- short description (injected if present) -->
+            <p class="card-text">Roma Street Parkland, Brisbane – 12 Dec 2025</p>
+            <span class="badge bg-success">Open</span>
+            <a href="details.html?id=e1" class="btn btn-primary mt-3">View Details</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Event 4 -->
-    <div class="col-md-4 mt-4">
-      <div class="card h-100">
-        <img src="static/img/Malay food fest.jpg" class="card-img-top" alt="Malaysia Festival">
-        <div class="card-body">
-          <h5 class="card-title">Malaysia Food Street</h5>
-          <p class="card-text">Indooroopilly Shopping Centre, Brisbane – 15 Jan 2026</p>
-          <span class="badge bg-success">Open</span>
-          <a href="details.html" class="btn btn-primary mt-3">View Details</a>
+      <!-- Event 2 -->
+      <div class="col-md-4" data-country="Vietnam">
+        <div class="card h-100">
+          <img src="static/img/viet food fest.jpg" class="card-img-top" alt="Vietnam Festival">
+          <div class="card-body">
+            <h5 class="card-title">Vietnam Food Fair</h5>
+            <p class="card-text">Southbank Parklands, Brisbane – 20 Dec 2025</p>
+            <span class="badge bg-warning text-dark">Limited</span>
+            <a href="details.html?id=e2" class="btn btn-primary mt-3">View Details</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Event 5 -->
-    <div class="col-md-4 mt-4">
-      <div class="card h-100">
-        <img src="static/img/Indo food fest.jpeg" class="card-img-top" alt="Indonesia Festival">
-        <div class="card-body">
-          <h5 class="card-title">Indonesian Food Bazaar</h5>
-          <p class="card-text">Westfield Mt Gravatt, Brisbane – 22 Jan 2026</p>
-          <span class="badge bg-warning text-dark">Limited</span>
-          <a href="details.html" class="btn btn-primary mt-3">View Details</a>
+      <!-- Event 3 -->
+      <div class="col-md-4" data-country="Singapore">
+        <div class="card h-100">
+          <img src="static/img/sg hawker.jpg" class="card-img-top" alt="Singapore Hawker Festival">
+          <div class="card-body">
+            <h5 class="card-title">Singapore Hawker Nights</h5>
+            <p class="card-text">Queen Street Park, Brisbane – 05 Jan 2026</p>
+            <span class="badge bg-danger">Sold Out</span>
+            <a href="details.html?id=e3" class="btn btn-primary mt-3">View Details</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Event 6 -->
-    <div class="col-md-4 mt-4">
-      <div class="card h-100">
-        <img src="static/img/phili food festival.jpg" class="card-img-top" alt="Philippines Festival">
-        <div class="card-body">
-          <h5 class="card-title">Philippines Fiesta</h5>
-          <p class="card-text"> Captain burke park , Brisbane – 30 Jan 2026</p>
-          <span class="badge bg-danger">Sold Out</span>
-          <a href="details.html" class="btn btn-primary mt-3">View Details</a>
+      <!-- Event 4 -->
+      <div class="col-md-4 mt-4" data-country="Malaysia">
+        <div class="card h-100">
+          <img src="static/img/Malay food fest.jpg" class="card-img-top" alt="Malaysia Festival">
+          <div class="card-body">
+            <h5 class="card-title">Malaysia Food Street</h5>
+            <p class="card-text">Indooroopilly Shopping Centre, Brisbane – 15 Jan 2026</p>
+            <span class="badge bg-success">Open</span>
+            <a href="details.html?id=e4" class="btn btn-primary mt-3">View Details</a>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div>
-</div>
+      <!-- Event 5 -->
+      <div class="col-md-4 mt-4" data-country="Indonesia">
+        <div class="card h-100">
+          <img src="static/img/Indo food fest.jpeg" class="card-img-top" alt="Indonesia Festival">
+          <div class="card-body">
+            <h5 class="card-title">Indonesian Food Bazaar</h5>
+            <p class="card-text">Westfield Mt Gravatt, Brisbane – 22 Jan 2026</p>
+            <span class="badge bg-warning text-dark">Limited</span>
+            <a href="details.html?id=e5" class="btn btn-primary mt-3">View Details</a>
+          </div>
+        </div>
+      </div>
 
+      <!-- Event 6 -->
+      <div class="col-md-4 mt-4" data-country="Philippines">
+        <div class="card h-100">
+          <img src="static/img/phili food festival.jpg" class="card-img-top" alt="Philippines Festival">
+          <div class="card-body">
+            <h5 class="card-title">Philippines Fiesta</h5>
+            <p class="card-text">Captain Burke Park, Brisbane – 30 Jan 2026</p>
+            <span class="badge bg-danger">Sold Out</span>
+            <a href="details.html?id=e6" class="btn btn-primary mt-3">View Details</a>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /#eventsGrid -->
+  </div> <!-- /.container -->
 
   <!-- Footer -->
-  <footer class="bg-primary text-center text-white py-5">
+  <footer class="bg-primary text-center text-white py-5 mt-auto">
     <p class="mb-0">© 2025 SEA Food Festivals</p>
   </footer>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- US#2: Country Filter -->
+  <script>
+    (function(){
+      const sel = document.getElementById('countryFilter');
+      const countShown = document.getElementById('countShown');
+      const countTotal = document.getElementById('countTotal');
+      const emptyState = document.getElementById('emptyState');
+      const grid = document.getElementById('eventsGrid');
+      if (!sel || !grid) return;
+
+      const cards = Array.from(grid.querySelectorAll(':scope > .col-md-4, :scope > .col-md-4.mt-4'));
+      const countries = Array.from(new Set(cards.map(c => c.getAttribute('data-country'))))
+        .filter(Boolean).sort();
+
+      sel.innerHTML = `<option value="__ALL__">All Countries</option>` +
+        countries.map(c => `<option value="${c}">${c}</option>`).join('');
+      countTotal.textContent = cards.length;
+
+      function apply() {
+        const pick = sel.value;
+        let shown = 0;
+        for (const c of cards) {
+          const match = (pick === '__ALL__') || (c.getAttribute('data-country') === pick);
+          c.classList.toggle('d-none', !match);
+          if (match) shown++;
+        }
+        countShown.textContent = String(shown);
+        emptyState.classList.toggle('d-none', shown !== 0);
+      }
+
+      sel.addEventListener('change', apply);
+      apply();
+    })();
+  </script>
+
+  <!-- US#5: Reflect Cancelled + updated title/venue/date/description on index -->
+  <script>
+    (function(){
+      const grid = document.getElementById('eventsGrid');
+      if (!grid) return;
+
+      let overrides = {};
+      try { overrides = JSON.parse(localStorage.getItem('iab207.events.v1') || '{}'); } catch {}
+
+      // Format like "20 Dec 2027"
+      const fmtDate = (iso) => {
+        try {
+          const d = new Date(iso);
+          return d.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
+        } catch { return null; }
+      };
+
+      grid.querySelectorAll('a[href*="details.html?id="]').forEach(a => {
+        const m = a.getAttribute('href').match(/[?&]id=([^&]+)/);
+        if (!m) return;
+        const id = m[1];
+        const o = overrides[id];
+        if (!o) return;
+
+        const card = a.closest('.card');
+        if (!card) return;
+
+        // 1) Status badge
+        const badge = card.querySelector('.badge');
+        if (o.status === 'Cancelled' && badge) {
+          badge.className = 'badge bg-danger';
+          badge.textContent = 'Cancelled';
+        }
+
+        // 2) Title
+        const titleEl = card.querySelector('.card-title');
+        if (o.title && titleEl) {
+          titleEl.textContent = o.title;
+        }
+
+        // 3) Venue + Date line
+        const meta = card.querySelector('.card-text');
+        if (meta && (o.venue || o.date)) {
+          const parts = meta.textContent.split('–');
+          const currentVenue = (parts[0] || '').trim();
+          const newVenue = o.venue || currentVenue;
+          const newDateStr = o.date ? fmtDate(o.date) : (parts[1] || '').trim();
+          meta.textContent = `${newVenue} – ${newDateStr}`;
+        }
+
+        // 4) Short description (show if saved)
+        if (o.description) {
+          let descEl = card.querySelector('.card-desc');
+          if (!descEl) {
+            const body = card.querySelector('.card-body');
+            descEl = document.createElement('p');
+            descEl.className = 'card-desc small text-muted mb-2';
+            body.insertBefore(descEl, meta); // insert above venue/date line
+          }
+          descEl.textContent = o.description;
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

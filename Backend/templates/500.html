@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Server Error{% endblock %}
+{% block content %}
+<div class="alert alert-danger">Something went wrong. Please try again.</div>
+<a class="btn btn-outline-light" href="{{ url_for('main.home') }}">Back to home</a>
+{% endblock %}

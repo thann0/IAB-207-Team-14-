@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Create Event – SEA Food Festivals{% endblock %}
+{% block content %}
+
+<h3 class="mb-3">Create New Event</h3>
+
+<form method="post" action="{{ url_for('main.create_event_submit') }}" class="row g-3">
+  <div class="col-md-6">
+    <label class="form-label">Title</label>
+    <input name="title" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Country</label>
+    <input name="country" class="form-control" placeholder="e.g., Singapore" required>
+  </div>
+  <div class="col-12">
+    <label class="form-label">Description</label>
+    <textarea name="description" class="form-control" rows="3" required></textarea>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Venue</label>
+    <input name="venue" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Date &amp; Time</label>
+    <input name="date" type="datetime-local" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Status</label>
+    <select name="status" class="form-select">
+      <option>Open</option>
+      <option>Limited</option>
+      <option>Sold Out</option>
+      <option>Cancelled</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Image filename (in static/img)</label>
+    <input name="image" class="form-control" placeholder="sg hawker.jpg">
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Create Event</button>
+    <a class="btn btn-outline-light" href="{{ url_for('main.home') }}">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Details – SEA Food Festivals{% endblock %}
+{% block content %}
+
+<div class="card bg-dark border-0">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start">
+      <h2 class="card-title mb-1">{{ e.title }}</h2>
+      <span class="badge
+        {% if e.display_status == 'Open' %} bg-success
+        {% elif e.display_status in ['Sold Out','Cancelled'] %} bg-danger
+        {% elif e.display_status == 'Limited' %} bg-warning text-dark
+        {% else %} bg-secondary {% endif %}">
+        {{ e.display_status }}
+      </span>
+    </div>
+    <p class="text-white-50 mb-3">{{ e.country }} • {{ e.venue }} • {{ e.date_time }}</p>
+
+    <img class="img-fluid rounded mb-3" src="{{ image_url }}" alt="{{ e.title }}">
+
+    <div class="d-flex gap-2 mb-3">
+      <a href="{{ url_for('main.home') }}" class="btn btn-outline-light btn-sm">← Back</a>
+
+      {% if not is_creator %}
+        <a href="{{ url_for('main.details', event_id=e.id) }}?creator=1" class="btn btn-outline-info btn-sm">Creator Mode</a>
+        {% if e.display_status in ['Open','Limited'] %}
+          <form method="post" action="{{ url_for('main.book_event', event_id=e.id) }}" class="d-inline">
+            <button class="btn btn-success btn-sm" type="submit">Book Now</button>
+          </form>
+        {% endif %}
+      {% else %}
+        <a href="{{ url_for('main.details', event_id=e.id) }}" class="btn btn-outline-secondary btn-sm">Exit Creator Mode</a>
+      {% endif %}
+    </div>
+
+    <p>{{ e.description }}</p>
+  </div>
+</div>
+
+{% if is_creator %}
+<div class="card bg-dark border mt-4">
+  <div class="card-body">
+    <h5 class="card-title">Update Event (Creator)</h5>
+    <form id="editForm" class="row g-3">
+      <div class="col-12"><label class="form-label">Title</label><input id="fTitle" class="form-control" value="{{ e.title }}"></div>
+      <div class="col-12"><label class="form-label">Description</label><textarea id="fDesc" class="form-control" rows="3" required>{{ e.description }}</textarea></div>
+      <div class="col-md-6"><label class="form-label">Venue</label><input id="fVenue" class="form-control" value="{{ e.venue }}" required></div>
+      <div class="col-md-6"><label class="form-label">Date &amp; Time</label><input id="fDate" type="datetime-local" class="form-control" value="{{ e.date[:16] if 'T' in e.date else '' }}" required></div>
+      <div class="col-md-6"><label class="form-label">Status</label>
+        <select id="fStatus" class="form-select">
+          {% for s in ['Open','Limited','Sold Out','Cancelled'] %}
+            <option value="{{ s }}" {{ 'selected' if e.status == s else '' }}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6"><label class="form-label">Image filename</label><input id="fImage" class="form-control" value="{{ e.image }}"><div class="form-text">Must exist in <code>static/img/</code>.</div></div>
+      <div class="col-12 d-flex gap-2"><button class="btn btn-primary" type="submit">Save</button><button id="cancelBtn" class="btn btn-outline-danger" type="button">Cancel Event</button></div>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+<!-- COMMENTS -->
+<div id="comments" class="card bg-dark border mt-4">
+  <div class="card-body">
+    <h5 class="card-title">Comments ({{ comments|length }})</h5>
+
+    {% if comments %}
+      <ul class="list-group list-group-flush">
+        {% for c in comments %}
+          <li class="list-group-item bg-dark text-white border-secondary">
+            <div class="d-flex justify-content-between">
+              <strong>{{ c.name|e }}</strong>
+              <small class="text-white-50">{{ c.ts_human }}</small>
+            </div>
+            <div class="mt-1">{{ c.text|e }}</div>
+
+            {% if is_creator %}
+            <form method="post"
+                  action="{{ url_for('main.delete_comment', event_id=e.id, comment_id=c.id) }}"
+                  class="mt-2">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-white-50 mb-0">No comments yet. Be the first to comment.</p>
+    {% endif %}
+
+    <hr class="border-secondary">
+
+    <form method="post" action="{{ url_for('main.add_comment', event_id=e.id) }}" class="row g-2">
+      <div class="col-md-3">
+        <input name="name" class="form-control" placeholder="Your name">
+      </div>
+      <div class="col-md-7">
+        <input name="text" class="form-control" placeholder="Write a comment..." maxlength="500" required>
+      </div>
+      <div class="col-md-2 d-grid">
+        <button class="btn btn-success" type="submit">Post</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if is_creator %}
+<script>
+(function(){
+  const eventId = "{{ e.id }}";
+  async function send(body){ return fetch(`/api/events/${eventId}`, {method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)}).then(r=>r.json()); }
+  document.getElementById('editForm').addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    const payload = { title:fTitle.value.trim(), description:fDesc.value.trim(), venue:fVenue.value.trim(), date:fDate.value, status:fStatus.value, image:fImage.value.trim() };
+    const res = await send(payload);
+    if(res.ok){ location.reload(); } else { alert('Save failed'); }
+  });
+  document.getElementById('cancelBtn').addEventListener('click', async ()=>{
+    if(!confirm('Cancel this event?')) return;
+    const res = await send({ status:'Cancelled' });
+    if(res.ok){ location.reload(); } else { alert('Cancel failed'); }
+  });
+})();
+</script>
+{% endif %}
+
+{% endblock %}

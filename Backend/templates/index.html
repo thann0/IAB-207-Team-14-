@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Home – SEA Food Festivals{% endblock %}
+{% block content %}
+<p class="mb-3">Showing {{ events|length }} events</p>
+
+<div class="row g-4">
+  {% for e in events %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <img class="card-img-top"
+             alt="{{ e.title }}"
+             src="{{ url_for('static', filename='img/' ~ (e.image or 'placeholder.png')) }}"
+             onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/placeholder.png') }}';">
+        <div class="card-body">
+          <h5 class="card-title">{{ e.title }}</h5>
+          <div class="text-muted">{{ e.venue }} – {{ e.date_time }}</div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a class="btn btn-primary" href="{{ url_for('main.details', event_id=e.id) }}">View Details</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

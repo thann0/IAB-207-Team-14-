@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}My Bookings – SEA Food Festivals{% endblock %}
+{% block content %}
+
+<h3 class="mb-3">My Bookings</h3>
+
+{% if bookings %}
+  <div class="table-responsive">
+    <table class="table table-dark table-striped align-middle">
+      <thead>
+        <tr>
+          <th>When</th>
+          <th>Event</th>
+          <th>Booked At</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+          <tr>
+            <td>{{ b.when }}</td>
+            <td>{{ b.event_title }}</td>
+            <td>{{ b.ts_iso.replace('T',' ') }}</td>
+            <td>
+              <a class="btn btn-sm btn-outline-info"
+                 href="{{ url_for('main.details', event_id=b.event_id) }}">View</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info">No bookings yet. Find an event and click <b>Book Now</b>.</div>
+{% endif %}
+
+{% endblock %}

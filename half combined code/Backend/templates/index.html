@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Home – SEA Food Festivals{% endblock %}
+{% block content %}
+
+<!-- Change static cards to looping + Sold Out badge -->
+<p class="mb-3">Showing {{ events|length }} events</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  {% for e in events %}
+  <div class="col">
+    <div class="card h-100">
+      {% if e.image_path %}
+        <img class="card-img-top" src="{{ url_for('static', filename=e.image_path) }}" alt="{{ e.title }}">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ e.title }}
+          {% if e.tickets_available == 0 or e.status == 'Sold Out' %}
+            <span class="badge bg-secondary ms-1">Sold Out</span>
+          {% endif %}
+        </h5>
+        <p class="card-text">{{ e.description[:100] }}...</p>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('main.event_detail', event_id=e.id) }}">View</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

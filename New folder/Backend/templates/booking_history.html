@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Bookings - SEA Food Festivals{% endblock %}
+{% block content %}
+<!-- US#10: Order History List -->
+<h2>My Booking History</h2>
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr><th>Order ID</th><th>Event</th><th>Date</th><th>Qty</th><th>Booked At</th></tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td><code>{{ b.order_id }}</code></td>
+        <td><a href="{{ url_for('main.details', event_id=b.event_id) }}">{{ b.event_title }}</a></td>
+        <td>{{ b.when }}</td>
+        <td>{{ b.qty }}</td>
+        <td>{{ b.ts }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="text-secondary">No bookings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

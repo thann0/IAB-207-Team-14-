@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Home - SEA Food Festivals{% endblock %}
+{% block content %}
+<section class="hero bg-white rounded-4 p-4 p-md-5 mb-4">
+  <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+    <div>
+      <h1 class="display-6 fw-bold mb-1">Discover Southeast Asia Food Festivals</h1>
+      <p class="mb-0 text-secondary">Find and book the tastiest events around you.</p>
+    </div>
+    <div class="ms-md-auto w-100" style="max-width:420px;">
+      <form class="input-group" method="get" action="{{ url_for('main.home') }}">
+        <input name="q" value="{{ q|default('') }}" class="form-control" placeholder="Search events, cuisines, venues...">
+        <button class="btn btn-brand"><i class="bi bi-search"></i></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Some new events</h1>
+  <form class="d-flex gap-2" method="get">
+    <select class="form-select" name="country" style="min-width:200px">
+      <option value="__ALL__" {{ "__ALL__" == selected and "selected" or "" }}>All Countries</option>
+      {% for c in countries %}
+        <option value="{{ c }}" {{ c == selected and "selected" or "" }}>{{ c }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-outline-secondary" type="submit">Filter</button>
+  </form>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for e in events %}
+  <div class="col">
+    <div class="card card-hover h-100 position-relative">
+      {% if e.image_url %}
+        <img src="{{ e.image_url }}" class="card-img-top" alt="{{ e.title }}">
+      {% endif %}
+      <div class="card-body d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start">
+          <h5 class="card-title">{{ e.title }}</h5>
+<div class="mb-2">{% if e.status=="Open" %}<span class="badge bg-success-subtle text-success border border-success-subtle">Open</span>{% elif e.status=="Limited" %}<span class="badge bg-warning-subtle text-warning border border-warning-subtle">Limited</span>{% else %}<span class="badge bg-danger">Sold Out</span>{% endif %}</div>
+          <span class="badge text-bg-secondary">{{ e.country }}</span>
+        </div>
+        <p class="text-muted mb-1">{{ e.venue }}</p>
+        <p class="text-muted">{{ e.display_dt }}</p>
+        <div class="d-flex gap-2 align-items-center mb-2">
+          {% if e.status == "Sold Out" %}<span class="badge text-bg-danger">Sold Out</span>{% elif e.status == "Limited" %}<span class="badge text-bg-warning text-dark">Limited</span>{% else %}<span class="badge text-bg-success">Open</span>{% endif %}
+          <small class="text-muted">Remaining: {{ e.remaining }}</small>
+        </div>
+        <div class="mt-auto d-grid">
+          <a class="btn btn-primary" href="{{ url_for('main.details', event_id=e.id) }}" aria-label="View details for {{ e.title }}">View details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+    <p>No events yet. Click "Create Event" to add one.</p>
+  {% endfor %}
+</div>
+{% endblock %}

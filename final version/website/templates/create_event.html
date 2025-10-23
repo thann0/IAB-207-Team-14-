@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Create Event</div></div></div>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-8"><div class="card p-4 p-md-5 mb-4">
+<h1 class="mb-3">Create a New Event</h1>
+<form method="post" action="{{ url_for('main.create') }}" class="row g-3">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="col-md-6">
+    <label class="form-label">Title</label>
+    <input name="title" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Country</label>
+    <input name="country" class="form-control" placeholder="e.g., Singapore" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Venue</label>
+    <input name="venue" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Date & Time</label>
+    <input type="datetime-local" name="date_time" class="form-control" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Total Tickets</label>
+    <input type="number" name="tickets" class="form-control" min="1" required>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Image (JPG/JPEG)</label>
+    <input type="file" name="image" accept=".jpg,.jpeg" class="form-control">
+  </div>
+  <div class="col-12">
+    <label class="form-label">Cuisine Highlights (comma separated)</label>
+    <input name="cuisines" class="form-control" placeholder="e.g., BBQ, Noodles, Desserts">
+  </div>
+  <div class="col-12">
+    <label class="form-label">Description</label>
+    <textarea name="description" class="form-control" rows="4" required></textarea>
+  </div>
+  <div class="col-12 d-flex gap-2">
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a class="btn btn-secondary" href="{{ url_for('main.home') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
